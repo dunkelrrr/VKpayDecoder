@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Декодер ссылки</title>
+</head>
+<body>
+    <h1>Декодер ссылки</h1>
+    <textarea id="input" rows="4" cols="100" placeholder="Вставьте вашу ссылку сюда..."></textarea>
+    <br>
+    <button id="decodeButton">Декодировать</button>
+    <pre id="output"></pre>
+
+    <script>
+        document.getElementById('decodeButton').onclick = function () {
+            const url = document.getElementById('input').value;
+            const dataParam = new URL(url).searchParams.get('data');
+
+            if (dataParam) {
+                // Заменяем URL-кодировку на обычные символы
+                const decodedData = decodeURIComponent(dataParam.replace(/%2F/g, '/').replace(/%3D/g, '='));
+                
+                // Декодируем из Base64
+                const jsonString = atob(decodedData);
+                
+                // Парсим JSON
+                const jsonObject = JSON.parse(jsonString);
+                
+                // Выводим результат
+                document.getElementById('output').textContent = JSON.stringify(jsonObject, null, 2);
+            } else {
+                document.getElementById('output').textContent = 'Параметр "data" не найден.';
+            }
+        };
+    </script>
+</body>
+</html>
