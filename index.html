@@ -23,9 +23,12 @@
                 
                 // Декодируем из Base64
                 const jsonString = atob(decodedData);
+
+                // Преобразуем строку в массив байтов для правильной обработки кириллицы
+                const jsonStringUtf8 = decodeURIComponent(escape(jsonString));
                 
                 // Парсим JSON
-                const jsonObject = JSON.parse(jsonString);
+                const jsonObject = JSON.parse(jsonStringUtf8);
                 
                 // Выводим результат
                 document.getElementById('output').textContent = JSON.stringify(jsonObject, null, 2);
